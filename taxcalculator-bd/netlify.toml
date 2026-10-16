@@ -1,0 +1,7 @@
+# Netlify: build and publish the static site. Security headers come from dist/_headers.
+[build]
+command = "npm run build"
+publish = "dist"
+
+[build.environment]
+NODE_VERSION = "22"

@@ -1,0 +1,24 @@
+{
+  "name": "taxcalculator-bd",
+  "version": "1.0.0",
+  "private": true,
+  "description": "TaxCalculator.bd - bilingual (English / Bangla) Bangladesh tax calculators and guides. Static site, all calculations run in the browser.",
+  "type": "module",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/serve.mjs --watch",
+    "start": "node scripts/serve.mjs",
+    "test": "node --test \"tests/*.test.mjs\"",
+    "check": "node scripts/check.mjs"
+  },
+  "devDependencies": {
+    "@fontsource-variable/noto-sans-bengali": "5.3.0",
+    "@fontsource-variable/plus-jakarta-sans": "5.3.0",
+    "@resvg/resvg-js": "2.6.2",
+    "esbuild": "0.28.2"
+  }
+}

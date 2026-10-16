@@ -1,0 +1,108 @@
+.print-only {
+  display: none !important;
+}
+
+@media print {
+  /* Always print with the light palette, even if the visitor uses dark mode. */
+  :root,
+  [data-theme="dark"] {
+    color-scheme: light;
+    --bg: #fff;
+    --surface: #fff;
+    --surface-2: #f6f8fc;
+    --surface-3: #eef2f9;
+    --border: #d5dbe6;
+    --border-strong: #aeb9cc;
+    --text: #000;
+    --text-2: #1f2937;
+    --text-3: #374151;
+    --brand: #067151;
+    --brand-soft: #e5f6ef;
+    --on-brand: #fff;
+    --accent: #2557e6;
+    --accent-soft: #e8eefe;
+    --danger: #b4233a;
+    --danger-soft: #fdecef;
+    --warn: #8a5300;
+    --warn-soft: #fff3d9;
+    --good: #067151;
+    --good-soft: #e5f6ef;
+    --info-soft: #e8eefe;
+    --slab-0: #cfd8e6;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  .site-header,
+  .site-footer,
+  .form-panel,
+  .result-bar,
+  .result-actions,
+  .lang-banner,
+  .toast-region,
+  .page-head .cluster,
+  .page-head .lead,
+  .breadcrumb,
+  .section--alt,
+  .skip-link,
+  .prose,
+  .workspace + .section {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .print-head {
+    display: flex !important;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #000;
+  }
+
+  .page-head {
+    padding: 0 0 12px;
+    background: none;
+  }
+
+  .workspace-grid {
+    display: block;
+  }
+
+  .results-col.is-sticky {
+    position: static;
+  }
+
+  .result-hero {
+    color: #000;
+    background: #f1f4fa !important;
+    box-shadow: none;
+    border: 1px solid #999;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .result-hero .result-label,
+  .result-hero .result-sub,
+  .kpi dt {
+    color: #333;
+  }
+
+  .kpi {
+    border-color: #bbb;
+    background: #fff;
+  }
+
+  .panel,
+  .report-card {
+    break-inside: avoid;
+    box-shadow: none;
+    border-color: #999;
+    margin-top: 12px;
+  }
+}
