@@ -49,6 +49,10 @@
   .section--alt,
   .skip-link,
   .prose,
+  .library-controls,
+  .library-count,
+  .anchor-chips,
+  .doc-cta,
   .workspace + .section {
     display: none !important;
   }

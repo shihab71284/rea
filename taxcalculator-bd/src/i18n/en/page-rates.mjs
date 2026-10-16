@@ -1,4 +1,6 @@
 export default {
+  archiveNote:
+    "Looking for older years? Circulars, directives, notifications and laws for income years up to 2021-22 are in the [archive]({@archive}).",
   lead: "Every rate, slab and limit used by the calculators, taken from the Finance Act 2026. Individual rates apply to AY 2026-27 and AY 2027-28 unless a table says otherwise.",
   nav: {
     individual: "Individuals",

@@ -51,32 +51,53 @@ function initTheme() {
   }
 }
 
+/** Desktop dropdowns (each button names its panel in aria-controls) and the mobile menu. */
 function initMenus() {
   const nav = $("[data-nav-toggle]");
   const mobile = $("#mobile-nav");
-  const menuButton = $("[data-menu-button]");
-  const menu = $("#menu-calculators");
+  const menus = $$("[data-menu-button]")
+    .map((button) => ({
+      button,
+      panel: document.getElementById(button.getAttribute("aria-controls")),
+    }))
+    .filter((menu) => menu.panel);
 
   const setMobile = (open) => {
     if (!nav || !mobile) return;
     mobile.hidden = !open;
     nav.setAttribute("aria-expanded", String(open));
   };
-  const setMenu = (open) => {
-    if (!menuButton || !menu) return;
-    menu.hidden = !open;
-    menuButton.setAttribute("aria-expanded", String(open));
+  const setMenu = (menu, open) => {
+    menu.panel.hidden = !open;
+    menu.button.setAttribute("aria-expanded", String(open));
+  };
+  const closeMenus = (except) => {
+    for (const menu of menus)
+      if (menu !== except && !menu.panel.hidden) setMenu(menu, false);
   };
 
   nav?.addEventListener("click", () => setMobile(mobile.hidden));
-  menuButton?.addEventListener("click", () => setMenu(menu.hidden));
+  for (const menu of menus) {
+    menu.button.addEventListener("click", () => {
+      closeMenus(menu);
+      setMenu(menu, menu.panel.hidden);
+    });
+    menu.panel.addEventListener("focusout", (event) => {
+      if (
+        !menu.panel.contains(event.relatedTarget) &&
+        event.relatedTarget !== menu.button
+      )
+        setMenu(menu, false);
+    });
+  }
   document.addEventListener("click", (event) => {
-    if (
-      menu &&
-      !menu.hidden &&
-      !event.target.closest("[data-menu-button], #menu-calculators")
-    )
-      setMenu(false);
+    for (const menu of menus)
+      if (
+        !menu.panel.hidden &&
+        !menu.panel.contains(event.target) &&
+        !menu.button.contains(event.target)
+      )
+        setMenu(menu, false);
     if (
       mobile &&
       !mobile.hidden &&
@@ -86,21 +107,15 @@ function initMenus() {
   });
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Escape") return;
-    if (menu && !menu.hidden) {
-      setMenu(false);
-      menuButton.focus();
-    }
+    for (const menu of menus)
+      if (!menu.panel.hidden) {
+        setMenu(menu, false);
+        menu.button.focus();
+      }
     if (mobile && !mobile.hidden) {
       setMobile(false);
       nav.focus();
     }
-  });
-  menu?.addEventListener("focusout", (event) => {
-    if (
-      !menu.contains(event.relatedTarget) &&
-      event.relatedTarget !== menuButton
-    )
-      setMenu(false);
   });
 }
 

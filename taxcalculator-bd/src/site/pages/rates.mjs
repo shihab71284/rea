@@ -226,7 +226,7 @@ export default function rates(ctx) {
           ${anchors.map((id) => html`<a class="chip" href="#${id}">${t(`page.rates.nav.${id}`)}</a>`)}
         </nav>
         <article class="prose prose--wide">
-          ${renderBlocks(ctx, [...individualBlocks(ctx), ...companyBlocks(ctx), ...vatBlocks(ctx)])}
+          ${renderBlocks(ctx, [...individualBlocks(ctx), ...companyBlocks(ctx), ...vatBlocks(ctx), ["callout", "info", t("page.rates.archiveNote")]])}
           ${sourcesList(ctx, [SOURCES.pwcFinanceAct, SOURCES.pwcPersonal, SOURCES.pwcDeductions, SOURCES.pwcAdmin, SOURCES.nbrFinanceActs])}
         </article>
       </div>

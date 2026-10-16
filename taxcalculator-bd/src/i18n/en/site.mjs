@@ -22,6 +22,7 @@ export default {
     popular: "Popular",
     business: "For business",
     planning: "Planning",
+    archive: "Archive",
   },
   tools: {
     income: {
@@ -156,6 +157,36 @@ export default {
       description:
         "The calculators give estimates for information only. This site is independent and is not affiliated with the National Board of Revenue.",
     },
+    archive: {
+      title: "Tax Archive: Circulars, SROs & Laws to {last}",
+      description:
+        "Income tax circulars (paripatra), directives (nirdeshika), SRO notifications and laws for income years {first} to {last}, linked from official NBR sources.",
+    },
+    archiveCircular: {
+      title: "Income Tax Circulars (Paripatra) up to {last}",
+      description:
+        "NBR\u0027s yearly income tax circulars for income years {first} to {last}, each linked to the official PDF.",
+    },
+    archiveDirective: {
+      title: "Income Tax Directives (Nirdeshika) up to {last}",
+      description:
+        "NBR\u0027s yearly income tax directives for individual taxpayers, for income years {from} to {last}, linked to the official PDFs.",
+    },
+    archiveSro: {
+      title: "Income Tax SRO Notifications (Prozapon) up to {last}",
+      description:
+        "Income tax SRO notifications that NBR lists for income years up to {last}, searchable by SRO number, year and subject, with a PDF for each.",
+    },
+    archiveLaw: {
+      title: "Income-tax Ordinance 1984, Rules & Finance Acts",
+      description:
+        "The Income-tax Ordinance, 1984, the Income Tax Rules and the Finance Acts {actFrom} to {actTo}, linked from NBR and the Laws of Bangladesh site.",
+    },
+    archiveYear: {
+      title: "Income Year {year} (Tax Year {taxYear}) Archive",
+      description:
+        "The income tax circular, directive, SRO notifications and Finance Act for income year {year}, assessed as tax year {taxYear} under the Income-tax Ordinance, 1984.",
+    },
     notFound: {
       title: "Page not found",
       description: "The page you are looking for does not exist.",
@@ -184,6 +215,7 @@ export default {
       "Free, private tax calculators for Bangladesh, built from the Finance Act 2026 and public NBR guidance. Independent: not affiliated with the National Board of Revenue.",
     calculators: "Calculators",
     learn: "Learn",
+    archive: "Archive",
     company: "Company",
     official: "Official portals",
     rights: "© {year} TaxCalculator.bd",

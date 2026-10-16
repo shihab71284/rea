@@ -19,5 +19,7 @@ export default {
   whatsapp: "",
   // Date the tax rules in src/core/rules.mjs were last checked against official/primary sources.
   rulesVerifiedOn: "2026-10-16",
+  // Date the document lists in src/archive were last compared with NBR's official pages.
+  archiveCheckedOn: "2026-10-16",
   themeColor: "#0a1b45",
 };

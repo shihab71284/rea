@@ -16,6 +16,7 @@ tracking.
 | Reference   | Tax rates and slabs for every assessment year, tax calendar with `.ics` reminders                                                                                                                                                                       |
 | Tools       | Private dashboard (saved calculations and a filing checklist, stored in the browser)                                                                                                                                                                    |
 | Learn       | Six plain-language guides, FAQ                                                                                                                                                                                                                          |
+| Archive     | A separate menu for older years: NBR circulars (পরিপত্র), directives (নির্দেশিকা), SRO notifications (প্রজ্ঞাপন) and laws (আইন) for income years up to 2021-22, linked from official sources. Browse by type or income year, or search every document         |
 | Company     | About, contact (mailto form), privacy, disclaimer, 404                                                                                                                                                                                                  |
 
 Everything exists in **English and Bangla** (`/` and `/bn/`) with Bangla digits and
@@ -85,6 +86,56 @@ estimates, not tax advice, and the site says so on every result.
 - The calendar covers FY 2026-27 (dates in `src/core/calendar.mjs`).
 - There is no service worker, so the site does not work offline.
 
+## The archive (income years up to 2021-22)
+
+The **Archive** menu holds the circulars, directives, notifications and laws for income years
+**2011-12 to 2021-22**, the last years the Income-tax Ordinance, 1984 governed (NBR's online lists
+start there). Income year 2021-22 (1 July 2021 to 30 June 2022) is tax year 2022-23, the last one
+assessed under the Ordinance; the Income Tax Act, 2023 (Act No. 12 of 2023) replaced it from income
+year 2022-23. The site links to the
+official PDF or page on `nbr.gov.bd`, `taxsurvey.gov.bd` or `bdlaws.minlaw.gov.bd`. It never hosts or
+alters a document.
+
+| Page                              | What it shows                                                                                   |
+| --------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `/archive/`                       | Overview, a card per document type and per income year, and a search over every document        |
+| `/archive/circulars/`             | NBR's yearly income tax circulars (_paripatra_), with later clarifications as extra links       |
+| `/archive/directives/`            | NBR's yearly return-filing and compliance guides for individuals (_nirdeshika_)                 |
+| `/archive/notifications/`         | SROs (_prozapon_) from NBR's own list, searchable by number, year and subject                   |
+| `/archive/laws/`                  | The Ordinance, its Rules and the Finance Acts 2009 to 2022                                      |
+| `/archive/income-year-2021-22/` … | One page per income year: its circular, directive, notifications, Finance Act and standing laws |
+
+Each page exists in English and Bangla (`/bn/archive/…`).
+
+**How a document is filed.** NBR names its yearly circular and directive after the _tax_ year, so
+"Circular 2022-23" is filed under income year 2021-22 (and always shown with NBR's own title).
+Notifications are filed by the income year (1 July to 30 June) of the date NBR's list shows, and a
+Finance Act under the income year whose tax year it set rates for. `src/archive/years.mjs` holds
+this logic and the two constants that define the scope, `LAST_INCOME_YEAR` and `FIRST_INCOME_YEAR`;
+a document outside them makes the build throw. The FAQ and intro copy in `src/i18n/*/page-archive.mjs`
+use 2021-22 in a few worked examples, so update those too if you ever move the cutoff.
+
+**Adding or updating a document.** The catalog is plain data, one constructor call per document:
+
+- `src/archive/circulars.mjs`: circulars and directives (`circular()`, `directive()`)
+- `src/archive/sros-*.mjs`: notifications (`sro()`), split by period to keep files short
+- `src/archive/laws.mjs`: the Ordinance, the Rules and the Finance Acts (`standingLaw()`, `financeAct()`)
+
+Give every document a title in **both** languages and an official link (`nbrPdf()`, `surveyPdf()`,
+`bdlawsPage()`); give extra links a label. `tests/archive.test.mjs` fails on a missing translation,
+a duplicate document or URL, a link outside the government hosts, a notification dated outside the
+archive, or a circular filed under the wrong year. When you refresh the data from NBR's lists,
+update `archiveCheckedOn` in `site.config.mjs`: the date is shown on the archive page.
+
+**What the archive does not claim.** It lists what NBR publishes on its website, which is not every
+SRO ever issued: NBR's income tax SRO list has nothing dated in income years 2012-13 and 2019-20, and
+its dates are sometimes upload dates (SRO 160 of 2022 is dated 1 June 2022 in the PDF and 9 June in
+the list). The titles are short bilingual summaries of NBR's descriptions, so the PDF remains the
+authoritative text. VAT and customs documents are not included; the archive is about income tax.
+
+The search box and filters are progressive enhancement: the full grouped list is plain HTML, so it
+works without JavaScript and for crawlers, and `src/client/pages/archive.js` hides rows as you type.
+
 ## How it is built
 
 No framework. A small Node script renders pages from templates and dictionaries; esbuild bundles
@@ -93,6 +144,7 @@ the browser code.
 ```
 src/
   core/        pure tax engine and helpers (isomorphic, fully unit-tested)
+  archive/     the document catalog behind the Archive menu (data and year logic, no rendering)
   views/       turns engine results into display "reports" (shared by site and browser)
   i18n/        en/ and bn/ dictionaries (one file per area, identical keys)
   site/        build-time page renderers, layout, components, icons, brand artwork
@@ -114,7 +166,7 @@ Design decisions worth knowing:
 - **No committed binaries.** Fonts come from npm at build time. The favicon, app icons and the
   1200×630 social card are rendered from SVG by `resvg` during `npm run build`.
 - **Accessibility.** Verified with axe-core (zero violations in light and dark themes on the main
-  pages), keyboard-operable menus, labelled form controls, live result regions and reduced-motion support.
+  pages and the archive), keyboard-operable menus, labelled form controls, live result regions and reduced-motion support.
 
 ## Third-party assets
 

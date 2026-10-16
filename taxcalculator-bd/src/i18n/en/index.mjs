@@ -11,6 +11,7 @@ import payroll from "./page-payroll.mjs";
 import tools from "./page-tools.mjs";
 import rates from "./page-rates.mjs";
 import company from "./page-company.mjs";
+import archive from "./page-archive.mjs";
 import guides from "./guides.mjs";
 import faq from "./faq.mjs";
 
@@ -31,5 +32,6 @@ export default {
     tools,
     rates,
     company,
+    archive,
   },
 };

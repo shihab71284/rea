@@ -1,4 +1,5 @@
 import { html } from "../html.mjs";
+import { LAST_INCOME_YEAR } from "../../archive/years.mjs";
 import { badge, ctaBand, faqList, toolGrid } from "../components.mjs";
 import { computeIncomeTax } from "../../core/income-tax.mjs";
 import { nextEvents } from "../../core/calendar.mjs";
@@ -318,6 +319,26 @@ function guidesSection(ctx) {
   </section>`;
 }
 
+function archiveSection(ctx) {
+  const { t, fmt } = ctx;
+  return html`<section class="section section--tight section--flush-top">
+    <div class="container">
+      <div class="archive-teaser" data-reveal>
+        <span class="tile tile--blue">${ctx.icon("archive")}</span>
+        <div>
+          <h2>${t("page.archive.teaser.title")}</h2>
+          <p>
+            ${t("page.archive.teaser.text", { last: fmt.digits(LAST_INCOME_YEAR) })}
+          </p>
+        </div>
+        <a class="btn btn-primary" href="${ctx.pageUrl("archive")}"
+          >${t("page.archive.teaser.cta")}${ctx.icon("arrowRight")}</a
+        >
+      </div>
+    </div>
+  </section>`;
+}
+
 function faqSection(ctx) {
   const items = faqItems(ctx, [
     "tax-free",
@@ -340,7 +361,7 @@ function faqSection(ctx) {
 
 export default function home(ctx) {
   const { t, config } = ctx;
-  const body = html`${hero(ctx)}${sourcesStrip(ctx)}${toolsSection(ctx)}${changesSection(ctx)}${stepsSection(ctx)}${audienceSection(ctx)}${whySection(ctx)}${datesSection(ctx)}${guidesSection(ctx)}${faqSection(ctx)}${ctaBand(
+  const body = html`${hero(ctx)}${sourcesStrip(ctx)}${toolsSection(ctx)}${changesSection(ctx)}${stepsSection(ctx)}${audienceSection(ctx)}${whySection(ctx)}${datesSection(ctx)}${guidesSection(ctx)}${archiveSection(ctx)}${faqSection(ctx)}${ctaBand(
     ctx,
     {
       title: t("home.cta.title"),

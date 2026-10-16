@@ -2,7 +2,14 @@ import { attrs, esc, html, raw } from "./html.mjs";
 import { ICONS } from "./icons.mjs";
 import { markBody } from "./brand.mjs";
 import { OFFICIAL_LINKS } from "../core/rules.mjs";
-import { RESOURCES, TOOLS } from "./registry.mjs";
+import { ARCHIVE_YEARS, LAST_INCOME_YEAR } from "../archive/years.mjs";
+import {
+  ARCHIVE_SECTIONS,
+  RESOURCES,
+  TOOLS,
+  archiveYearId,
+  isArchivePage,
+} from "./registry.mjs";
 
 const LOCALES = { en: "en_GB", bn: "bn_BD" };
 
@@ -66,6 +73,51 @@ function megaMenu(ctx) {
   </div>`;
 }
 
+function archiveTile(ctx, section) {
+  const tile = section.tile ? ` tile--${section.tile}` : "";
+  const key = (name) => `page.archive.types.${section.type}.${name}`;
+  return html`<a class="mega-link" href="${ctx.pageUrl(section.id)}">
+    <span class="tile${tile}">${ctx.icon(section.icon)}</span>
+    <span
+      ><strong>${ctx.t(key("name"))}</strong
+      ><span>${ctx.t(key("desc"))}</span></span
+    >
+  </a>`;
+}
+
+function archiveMenu(ctx) {
+  const { t, fmt } = ctx;
+  const search = html`<a
+    class="mega-link"
+    href="${ctx.pageUrl("archive")}#library"
+  >
+    <span class="tile tile--blue">${ctx.icon("search")}</span>
+    <span
+      ><strong>${t("page.archive.menu.all")}</strong
+      ><span>${t("page.archive.menu.allDesc")}</span></span
+    >
+  </a>`;
+  return html`<div class="mega mega--archive" id="menu-archive" hidden>
+    <div class="mega-grid">
+      <p class="mega-title">
+        ${t("page.archive.menu.title", { last: fmt.digits(LAST_INCOME_YEAR) })}
+      </p>
+      ${ARCHIVE_SECTIONS.map((section) => archiveTile(ctx, section))}${search}
+    </div>
+    <div class="mega-years">
+      <span>${t("page.archive.menu.byYear")}</span>
+      <div class="chips">
+        ${ARCHIVE_YEARS.map(
+          (year) =>
+            html`<a class="chip" href="${ctx.pageUrl(archiveYearId(year))}"
+              >${fmt.digits(year)}</a
+            >`,
+        )}
+      </div>
+    </div>
+  </div>`;
+}
+
 function navLink(ctx, id, current, label) {
   return html`<a
     class="nav-link"
@@ -109,6 +161,19 @@ function header(ctx, page) {
           </button>
           ${megaMenu(ctx)}
         </div>
+        <div class="nav-item nav-item--archive">
+          <button
+            class="nav-link"
+            type="button"
+            aria-expanded="false"
+            aria-controls="menu-archive"
+            data-menu-button
+            ${attrs({ "aria-current": isArchivePage(current) ? "page" : null })}
+          >
+            ${t("site.nav.archive")}${ctx.icon("chevronDown")}
+          </button>
+          ${archiveMenu(ctx)}
+        </div>
         ${navLink(ctx, "rates", current, t("site.nav.rates"))}
         ${navLink(ctx, "guides", current, t("site.nav.guides"))}
         ${navLink(ctx, "calendar", current, t("site.nav.calendar"))}
@@ -147,6 +212,9 @@ function mobileNav(ctx) {
   return html`<div class="mobile-nav" id="mobile-nav" hidden>
     <h2>${t("site.nav.calculators")}</h2>
     ${TOOLS.map((tool) => simple(tool.id, tool.icon, t(`site.tools.${tool.id}.name`)))}
+    <h2>${t("site.footer.archive")}</h2>
+    ${ARCHIVE_SECTIONS.map((section) => simple(section.id, section.icon, t(`page.archive.types.${section.type}.name`)))}
+    ${simple("archive", "archive", t("page.archive.menu.all"))}
     <h2>${t("site.footer.learn")}</h2>
     ${RESOURCES.map((item) => simple(item.id, item.icon, t(`site.tools.${item.id}.name`)))}
     ${simple("guides", "book", t("site.nav.guides"))}${simple("faq", "help", t("site.nav.faq"))}
@@ -213,6 +281,13 @@ function footer(ctx, page) {
           ${li(ctx.pageUrl("dashboard"), t("site.tools.dashboard.name"))}
           ${li(ctx.pageUrl("guides"), t("site.nav.guides"))}
           ${li(ctx.pageUrl("faq"), t("site.nav.faq"))}
+        </ul>
+      </div>
+      <div>
+        <h2>${t("site.footer.archive")}</h2>
+        <ul>
+          ${ARCHIVE_SECTIONS.map((section) => li(ctx.pageUrl(section.id), t(`page.archive.types.${section.type}.name`)))}
+          ${li(ctx.pageUrl("archive"), t("page.archive.menu.all"))}
         </ul>
       </div>
       <div>

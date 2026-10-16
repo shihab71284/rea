@@ -14,7 +14,9 @@ import faq from "./faq.mjs";
 import contact from "./contact.mjs";
 import { about, disclaimer, notFound, privacy } from "./info.mjs";
 import { guidePage, guidesIndex } from "./guides.mjs";
-import { GUIDES } from "../registry.mjs";
+import { archiveHub, archiveType, archiveYear } from "./archive.mjs";
+import { ARCHIVE_YEARS } from "../../archive/years.mjs";
+import { ARCHIVE_SECTIONS, GUIDES, archiveYearId } from "../registry.mjs";
 
 /** Every page that is rendered in each language. */
 export const PAGES = [
@@ -34,6 +36,15 @@ export const PAGES = [
   ...GUIDES.map((guide) => ({
     id: `guide:${guide.id}`,
     render: guidePage(guide),
+  })),
+  { id: "archive", render: archiveHub },
+  ...ARCHIVE_SECTIONS.map((section) => ({
+    id: section.id,
+    render: archiveType(section.type),
+  })),
+  ...ARCHIVE_YEARS.map((year) => ({
+    id: archiveYearId(year),
+    render: archiveYear(year),
   })),
   { id: "faq", render: faq },
   { id: "about", render: about },

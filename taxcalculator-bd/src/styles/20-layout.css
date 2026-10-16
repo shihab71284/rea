@@ -240,6 +240,7 @@
 
 .mega-link strong {
   display: block;
+  color: var(--text);
   font-size: 0.95rem;
   line-height: 1.3;
 }
@@ -385,7 +386,8 @@
   background: var(--surface-3);
 }
 
-@media (min-width: 1020px) {
+/* Six primary links plus the controls need about 1140px; below that the mobile menu is used. */
+@media (min-width: 1180px) {
   .primary-nav {
     display: flex;
   }
@@ -747,6 +749,17 @@
 @media (max-width: 640px) {
   .footer-brand {
     grid-column: 1 / -1;
+  }
+}
+
+/* Brand plus five link columns (calculators, learn, archive, company, portals) in one row. */
+@media (min-width: 1180px) {
+  .footer-grid {
+    grid-template-columns: minmax(220px, 1.5fr) repeat(5, minmax(0, 1fr));
+    gap: 28px;
+  }
+  .footer-brand {
+    grid-column: auto;
   }
 }
 

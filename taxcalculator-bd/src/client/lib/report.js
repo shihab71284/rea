@@ -52,7 +52,7 @@ function tableHtml(section) {
   const foot = section.foot
     ? `<tr class="total">${section.foot.map((value, i) => cell("td", value, i)).join("")}</tr>`
     : "";
-  return `<div class="table-wrap"><table class="table"><thead>${head}</thead><tbody>${rows}${foot}</tbody></table></div>`;
+  return `<div class="table-wrap" tabindex="0"><table class="table"><thead>${head}</thead><tbody>${rows}${foot}</tbody></table></div>`;
 }
 
 function notesHtml(items) {

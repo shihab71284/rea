@@ -18,7 +18,8 @@ export const slug = (text) =>
 
 function renderTable(head, rows, numericColumns, rich) {
   const numeric = new Set(numericColumns);
-  return html`<div class="table-wrap">
+  // Focusable so keyboard users can scroll a table that is wider than the screen.
+  return html`<div class="table-wrap" tabindex="0">
     <table class="table">
       <thead>
         <tr>

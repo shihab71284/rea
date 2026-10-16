@@ -1,3 +1,5 @@
+import { ARCHIVE_YEARS } from "../archive/years.mjs";
+
 /** Every page of the site, with its path (English URL) and navigation role. */
 
 export const TOOLS = [
@@ -68,6 +70,48 @@ export const GUIDES = [
   { id: "vat", slug: "vat-in-bangladesh-explained", icon: "receipt" },
 ];
 
+/** The four kinds of archive document: menu order, page id, path and icon. */
+export const ARCHIVE_SECTIONS = [
+  {
+    type: "circular",
+    id: "archive:circular",
+    path: "/archive/circulars/",
+    icon: "fileText",
+    tile: "",
+  },
+  {
+    type: "directive",
+    id: "archive:directive",
+    path: "/archive/directives/",
+    icon: "book",
+    tile: "blue",
+  },
+  {
+    type: "sro",
+    id: "archive:sro",
+    path: "/archive/notifications/",
+    icon: "scrollText",
+    tile: "amber",
+  },
+  {
+    type: "law",
+    id: "archive:law",
+    path: "/archive/laws/",
+    icon: "scale",
+    tile: "rose",
+  },
+];
+
+export const archiveYearId = (year) => `archive-year:${year}`;
+
+export const archiveSection = (type) =>
+  ARCHIVE_SECTIONS.find((section) => section.type === type);
+
+export const isArchivePage = (id) =>
+  id === "archive" ||
+  id.startsWith("archive:") ||
+  id.startsWith("archive-year:");
+
 /** page id -> English path */
 export const PATHS = {
   home: "/",
@@ -78,11 +122,21 @@ export const PATHS = {
   contact: "/contact/",
   privacy: "/privacy/",
   disclaimer: "/disclaimer/",
+  archive: "/archive/",
   notFound: "/404.html",
   ...Object.fromEntries(TOOLS.map((tool) => [tool.id, tool.path])),
   ...Object.fromEntries(RESOURCES.map((item) => [item.id, item.path])),
   ...Object.fromEntries(
     GUIDES.map((guide) => [`guide:${guide.id}`, `/guides/${guide.slug}/`]),
+  ),
+  ...Object.fromEntries(
+    ARCHIVE_SECTIONS.map((section) => [section.id, section.path]),
+  ),
+  ...Object.fromEntries(
+    ARCHIVE_YEARS.map((year) => [
+      archiveYearId(year),
+      `/archive/income-year-${year}/`,
+    ]),
   ),
 };
 

@@ -5,6 +5,8 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { buildSite } from "../scripts/build.mjs";
 import { checkSite } from "../scripts/check.mjs";
+import config from "../site.config.mjs";
+import { PAGES } from "../src/site/pages/index.mjs";
 
 const out = mkdtempSync(join(tmpdir(), "tcbd-site-"));
 const read = (path) => readFileSync(join(out, path), "utf8");
@@ -27,7 +29,7 @@ test("the whole site builds in both languages", async () => {
 test("built site passes link, SEO, accessibility-reference and CSP checks", () => {
   const { errors, pages } = checkSite(out);
   assert.deepEqual(errors, []);
-  assert.equal(pages, 50);
+  assert.equal(pages, PAGES.length * config.languages.length);
 });
 
 test("language and SEO basics", () => {
